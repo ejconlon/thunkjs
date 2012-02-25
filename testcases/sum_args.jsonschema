@@ -1,0 +1,11 @@
+{
+  "name": "$sum_args",
+  "properties": {
+    "xs": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    }
+  }
+}
