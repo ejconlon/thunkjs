@@ -9,8 +9,11 @@ from os.path import join as pjoin
 import json
 from optparse import OptionParser
 
-from json_schema_validator.schema import Schema
-from json_schema_validator.validator import Validator
+try:
+    from json_schema_validator.schema import Schema
+    from json_schema_validator.validator import Validator
+except ImportError:
+    print "Cannot load json_schema_validator. Try using the node evaluator."
 
 def read_json(filename):
     with open(filename) as f:
