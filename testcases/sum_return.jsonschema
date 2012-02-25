@@ -1,4 +1,9 @@
 {
-  "name": "$sum_return",
-  "type": "number"
+  "description": "$sum_return",
+  "type": "object",
+  "properties" : {
+    "result": {
+      "type": "number"
+    }
+  }
 }

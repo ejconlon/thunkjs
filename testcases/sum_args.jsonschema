@@ -1,5 +1,6 @@
 {
-  "name": "$sum_args",
+  "description": "$sum_args",
+  "type": "object",
   "properties": {
     "xs": {
       "type": "array",

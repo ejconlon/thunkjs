@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
+import sys
 import glob
 import re
 import copy
 import os
 from os.path import join as pjoin
 import json
+from optparse import OptionParser
 
 from json_schema_validator.schema import Schema
 from json_schema_validator.validator import Validator
@@ -64,14 +66,23 @@ def run_testcases_node(casemap):
             print "CASE:", casefile
             assert os.system('./runjsv.js %s %s' % (schemafile, casefile)) == 0
 
-def run_testcases(casemap):
-    run_testcases_node(casemap)
-
-def main(directory):
+def main(directory, use_node):
     auto_casemap = get_casemap(directory)
     manual_casemap = get_manual_casemap(directory)
     casemap = merge_casemaps(auto_casemap, manual_casemap)
-    run_testcases(casemap)
+    if use_node:
+        run_testcases_node(casemap)
+    else:
+        run_testcases_python(casemap)
+
+def parse_args():
+    parser = OptionParser()
+    parser.add_option("-d", "--directory", dest="directory", default="./testcases",
+                      help="read test cases from DIRECTORY", metavar="DIRECTORY")
+    parser.add_option("-n", "--node", dest="node", default=True, action="store_true",
+                      help="use node.js validator")
+    return parser.parse_args()
 
 if __name__ == "__main__":
-    main('./testcases')
+    options, args = parse_args()
+    main(options.directory, options.node)
