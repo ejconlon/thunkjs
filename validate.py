@@ -63,8 +63,62 @@ def run_testcases_python(casemap):
             print cj
             assert Validator.validate(schema, cj)
 
+def find_refs(js, acc=None):
+    if not acc:
+        acc = set()
+    if type(js) == dict:
+        if u'$ref' in js:
+            jsr = js[u'$ref']
+            if jsr[-1] != u"#": jsr = jsr + u'#'
+            if jsr != u"#" and u'/schema#' and u'/hyper-schema#' not in jsr:
+                acc.add(jsr)
+        for val in js.itervalues():
+            acc.update(find_refs(val, acc))
+    return acc
+
+def visit(ref, refs_to_ids, visited, out):
+    if ref not in visited:
+        visited.add(ref)
+        for i in refs_to_ids.iterkeys():
+            if ref in refs_to_ids[i]:
+                visit(i, refs_to_ids, visited, out)
+        out.append(ref)
+
+def run_topo(refs_to_ids):
+    visited = set()
+    out = []
+    for ref, ids in refs_to_ids.iteritems():
+        if not len(ids):
+            visit(ref, refs_to_ids, visited, out)
+    #print "ALL", refs_to_ids.keys()
+    #print "VISITED", visited
+    #print "OUT", out
+    return out
+
+def toposort_refs(schemafiles):
+    # for some reason hyper-schema is problematic.
+    all_schemas = [x for x in schemafiles if 'schema.jsonschema' not in x]
+    id_to_filename = {}
+    refs_to_ids = {}
+    for schemafile in all_schemas:
+        print "PROCESSING", schemafile
+        sj = read_json(schemafile)
+        sji = sj['id']
+        if (sji[-1] != "#"): sji = sji + "#"
+        id_to_filename[sji] = schemafile
+        id_to_refs = find_refs(sj)
+        for ref in id_to_refs:
+            if ref not in refs_to_ids:
+                refs_to_ids[ref] = set()
+            refs_to_ids[ref].add(sji)
+    for i in id_to_filename.iterkeys():
+        if i not in refs_to_ids:
+            refs_to_ids[i] = set()
+    sorted_ids = run_topo(refs_to_ids)
+    return (id_to_filename[i] for i in sorted_ids)
+
 def run_testcases_node(casemap):
-    all_schemas = ' '.join(x for x in casemap.iterkeys() if 'hyper-schema.jsonschema' not in x)
+    all_schemas = ' '.join(toposort_refs(casemap.iterkeys()))
     for schemafile, casefiles in casemap.iteritems():
         print "SCHEMA:", schemafile
         for casefile in casefiles:

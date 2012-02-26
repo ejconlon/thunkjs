@@ -1,4 +1,6 @@
 {
+  "$schema" : "http://json-schema.org/draft-03/schema#",
+  "id": "http://exathunk.net/schema-01/sum_args.jsonschema",
   "description": "$sum_args",
   "type": "object",
   "properties": {

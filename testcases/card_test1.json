@@ -1,4 +1,5 @@
 {
+	"$schema": "http://json-schema.org/draft-03/card",
 	"givenName": "Bob",
 	"familyName": "Loblaw",
 	"tel": {
@@ -8,5 +9,12 @@
 	"email": {
 		 "type": "work",
 		 "value": "bob@loblow.foo"
+	},
+	"adr": {	
+		"street-address": "123 Main St.",
+		"locality": "Party City",
+		"postal-code": "98765",
+		"region": "CA",
+		"country-name": "USA"
 	}
 }
