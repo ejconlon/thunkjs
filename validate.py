@@ -34,6 +34,7 @@ def get_manual_casemap(directory):
     for manual in manuals:
         with open(manual) as f:
             for line in f.readlines():
+                if line.startswith("#"): continue
                 k, v = [pjoin(directory, x) for x in line.strip().split()]
                 globbed = glob.glob(v)
                 if len(globbed):
@@ -63,11 +64,13 @@ def run_testcases_python(casemap):
             assert Validator.validate(schema, cj)
 
 def run_testcases_node(casemap):
+    all_schemas = ' '.join(x for x in casemap.iterkeys() if 'hyper-schema.jsonschema' not in x)
     for schemafile, casefiles in casemap.iteritems():
         print "SCHEMA:", schemafile
         for casefile in casefiles:
             print "CASE:", casefile
-            assert os.system('./runjsv.js %s %s' % (schemafile, casefile)) == 0
+            cmd = './runjsv.js %s %s %s' % (all_schemas, schemafile, casefile)
+            assert os.system(cmd) == 0
 
 def main(directory, use_node):
     auto_casemap = get_casemap(directory)

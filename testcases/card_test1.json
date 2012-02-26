@@ -1,0 +1,12 @@
+{
+	"givenName": "Bob",
+	"familyName": "Loblaw",
+	"tel": {
+	       "type": "work",
+	       "value": "123-456-7890"
+	},
+	"email": {
+		 "type": "work",
+		 "value": "bob@loblow.foo"
+	}
+}

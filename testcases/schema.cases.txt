@@ -1,1 +1,2 @@
-schema *.jsonschema
+#schema.jsonschema *.jsonschema
+#hyper-schema.jsonschema *.jsonschema

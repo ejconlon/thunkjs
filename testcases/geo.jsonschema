@@ -1,0 +1,9 @@
+{
+	"id" : "http://json-schema.org/draft-03/geo#",
+	"description" : "A geographical coordinate",
+	"type" : "object",
+	"properties" : {
+		"latitude" : { "type" : "number" },
+		"longitude" : { "type" : "number" }
+	}
+}
