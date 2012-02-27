@@ -1,0 +1,35 @@
+{
+	"$schema": "http://exathunk.net/schema-01/endpoints.jsonschema#",
+	"endpoints" : [
+		    {
+			"name": "Create Object",
+			"path": "/1/classes/<className>",
+			"pathVars": ["className"],
+			"method": "POST"
+		    },
+		    {
+			"name": "Retrieve Object",
+			"path": "/1/classes/<className>/<objectId>",
+			"pathVars": ["className", "objectId"],
+			"method": "GET"
+		    },
+		    {
+			"name": "Update Object",
+			"path": "/1/classes/<className>/<objectId>",
+			"pathVars": ["className", "objectId"],
+			"method": "PUT"
+		    },
+		    {
+			"name": "Query",
+			"path": "/1/classes/<className>",
+			"pathVars": ["className"],
+			"method": "GET"
+		    },
+		    {
+			"name": "Delete Object",
+			"path": "/1/classes/<className>/<objectId>",
+			"pathVars": ["className", "objectId"],
+			"method": "DELETE"
+		    }
+	]
+}

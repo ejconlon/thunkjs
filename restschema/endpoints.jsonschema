@@ -1,0 +1,29 @@
+{
+  "$schema" : "http://json-schema.org/draft-03/schema#",
+  "id": "http://exathunk.net/schema-01/endpoints.jsonschema",
+  "description": "A schema for representing a flat list of rest endpoints",
+  "type": "object",
+  "properties": {
+    "endpoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+	"properties": {
+	  "method": {
+	    "type": "string"
+          },
+	  "path": {
+	    "type": "string"
+	  },
+	  "pathVars": {
+	    "type": "array",
+	    "items": { "type": "string" }
+	  },
+	  "name": {
+	    "type": "string"
+	  }
+	}
+      }
+    }
+  }
+}
